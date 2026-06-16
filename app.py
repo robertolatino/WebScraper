@@ -4,6 +4,21 @@ import os
 os.system("playwright install chromium firefox")
 from docx import Document
 
+# Importar configuración centralizada
+try:
+    from config import STREAMLIT_CONFIG, obtener_url_base
+except ImportError:
+    # Valores por defecto si no está disponible el archivo config
+    STREAMLIT_CONFIG = {
+        "page_title": "Testing Automation Suite",
+        "page_icon": "🤖",
+        "layout": "centered"
+    }
+    def obtener_url_base(plataforma):
+        if plataforma == "Edelvives Digital Plus (EPD)":
+            return "https://publisher.edelvivesdigitalplus.com/"
+        return "https://publisher.bymedigital.com/"
+
 # --- PREPARACIÓN DE LAS CONEXIONES FUTURAS ---
 # Dejamos preparadas las importaciones de las funciones que modificaremos en el siguiente paso
 try:
@@ -17,9 +32,9 @@ except ImportError:
 
 # --- CONFIGURACIÓN DE LA INTERFAZ (UI) ---
 st.set_page_config(
-    page_title="Testing Automation Suite", 
-    page_icon="🤖", 
-    layout="centered"
+    page_title=STREAMLIT_CONFIG.get("page_title", "Testing Automation Suite"),
+    page_icon=STREAMLIT_CONFIG.get("page_icon", "🤖"),
+    layout=STREAMLIT_CONFIG.get("layout", "centered")
 )
 
 st.title("🤖 Testing Automation Suite")
@@ -37,11 +52,8 @@ plataforma = st.sidebar.selectbox(
     ["Edelvives Digital Plus (EPD)", "ByME Digital / Got It"]
 )
 
-# Asignación dinámica de la URL según la elección del usuario
-if plataforma == "Edelvives Digital Plus (EPD)":
-    url_base = "https://publisher.edelvivesdigitalplus.com/"
-else:
-    url_base = "https://publisher.bymedigital.com/"
+# Asignación dinámica de la URL desde config
+url_base = obtener_url_base(plataforma)
 
 st.sidebar.markdown("---")
 

@@ -170,33 +170,3 @@ def ejecutar_extraccion_enunciados(url_base, usuario, contrasena, lista_codigos,
         
         browser.close()
         return resultados
-
-
-# Dejo tu código standalone intacto por si alguna vez quieres correr scraper.py directamente desde la terminal
-def iniciar_automatizacion():
-    # Variables locales para modo standalone
-    URL_LOCAL = "https://publisher.edelvivesdigitalplus.com"
-    USUARIO_LOCAL = "roberto.latino@edelvives.es"
-    CONTRASEÑA_LOCAL = "Masaya2022$"
-    
-    LISTA_CONTENIDOS = leer_codigos_desde_txt("codigos.txt")
-    if not LISTA_CONTENIDOS:
-        print("Finalizando ejecución porque no hay códigos para procesar.")
-        return
-
-    resultados = ejecutar_extraccion_enunciados(URL_LOCAL, USUARIO_LOCAL, CONTRASEÑA_LOCAL, LISTA_CONTENIDOS)
-    
-    if not resultados:
-        return
-    
-    print("\n[3] Generando documento de Word...")
-    doc = Document()
-    doc.add_heading('Enunciados de Actividades', 0)
-    for cod, desc_html in resultados:
-        agregar_html_a_docx(desc_html, doc, cod)
-        
-    doc.save("enunciados_formateados.docx")
-    print("[FIN] Prueba completada. Revisa el archivo 'enunciados_formateados.docx' en tu carpeta.")
-
-if __name__ == "__main__":
-    iniciar_automatizacion()
