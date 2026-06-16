@@ -9,3 +9,13 @@ libxfixes3
 libxrandr2
 libgbm1
 libasound2
+libxcb-shm0
+libxcursor1
+libgtk-3-0
+libpangocairo-1.0-0
+libpango-1.0-0
+libcairo-gobject2
+libcairo2
+libgdk-pixbuf-2.0-0
+libfreetype6
+libfontconfig1
