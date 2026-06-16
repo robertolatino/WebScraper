@@ -11,7 +11,7 @@ except ImportError:
     # Valores por defecto si no está disponible el archivo config
     STREAMLIT_CONFIG = {
         "page_title": "Testing Automation Suite",
-        "page_icon": "🤖",
+        "page_icon": "",
         "layout": "centered"
     }
     def obtener_url_base(plataforma):
@@ -32,11 +32,11 @@ except ImportError:
 # --- CONFIGURACIÓN DE LA UI ---
 st.set_page_config(
     page_title=STREAMLIT_CONFIG.get("page_title", "Testing Automation Suite"),
-    page_icon=STREAMLIT_CONFIG.get("page_icon", "🤖"),
+    page_icon=STREAMLIT_CONFIG.get("page_icon", ""),
     layout=STREAMLIT_CONFIG.get("layout", "centered")
 )
 
-st.title("🤖 Testing Automation Suite")
+st.title("Testing Automation Suite")
 st.write("Recolección y extracción automatizada de contenidos.")
 st.markdown("---")
 
@@ -57,7 +57,7 @@ url_base = obtener_url_base(plataforma)
 st.sidebar.markdown("---")
 
 # Paso 2: Credenciales de acceso
-st.sidebar.header("🔐 Credenciales de Acceso")
+st.sidebar.header("Credenciales de Acceso")
 usuario = st.sidebar.text_input("Usuario / Correo", placeholder="ejemplo@edelvives.es")
 contrasena = st.sidebar.text_input("Contraseña", type="password")
 
@@ -68,7 +68,7 @@ st.sidebar.info(f"Conectando a:\n`{url_base}`")
 # =========================================================================
 # PESTAÑAS DE TRABAJO
 # =========================================================================
-tab_recolector, tab_extractor = st.tabs(["📋 1. Recolector de Códigos", "Docx 2. Extractor de Enunciados"])
+tab_recolector, tab_extractor = st.tabs(["1. Recolector de Códigos", "Docx 2. Extractor de Enunciados"])
 
 # --- PESTAÑA 1: RECOLECTOR ---
 with tab_recolector:
@@ -78,9 +78,9 @@ with tab_recolector:
     # Paso 3: Código padre del libro
     codigo_libro = st.text_input("3. Introduce el código del libro:", placeholder="Ej: 225253_MAT1")
     
-    if st.button("🚀 Iniciar módulo 'recolector.py'", key="btn_rec"):
+    if st.button("Iniciar módulo 'recolector.py'", key="btn_rec"):
         if not usuario or not contrasena or not codigo_libro:
-            st.error("⚠️ Error: Asegúrate de rellenar las credenciales en la barra lateral y el código del libro.")
+            st.error("Error: Asegúrate de rellenar las credenciales en la barra lateral y el código del libro.")
         else:
             progreso = st.status("Llamando a 'recolector.py'...")
             try:
@@ -93,7 +93,7 @@ with tab_recolector:
                 # Generador del botón de descarga para el .txt
                 txt_data = "\n".join(lista_final)
                 st.download_button(
-                    label="📥 Descargar lista de códigos (.txt)",
+                    label="Descargar lista de códigos (.txt)",
                     data=txt_data,
                     file_name=f"codigos_{codigo_libro}.txt",
                     mime="text/plain"
@@ -110,9 +110,9 @@ with tab_extractor:
     # En este módulo el usuario sube el archivo generado previamente
     archivo_subido = st.file_uploader("Sube tu archivo de códigos (.txt):", type=["txt"])
     
-    if st.button("🚀 Iniciar módulo 'scraper.py'", key="btn_ext"):
+    if st.button("Iniciar módulo 'scraper.py'", key="btn_ext"):
         if not usuario or not contrasena or not archivo_subido:
-            st.error("⚠️ Error: Asegúrate de rellenar las credenciales y subir un archivo .txt válido.")
+            st.error("Error: Asegúrate de rellenar las credenciales y subir un archivo .txt válido.")
         else:
             # Procesamos el archivo subido en memoria
             contenido_txt = archivo_subido.read().decode("utf-8")
@@ -140,7 +140,7 @@ with tab_extractor:
                 
                 st.success("Documento Word generado listo para descarga.")
                 st.download_button(
-                    label="📥 Descargar Documento (.docx)",
+                    label="Descargar Documento (.docx)",
                     data=docx_buffer,
                     file_name=f"enunciados_{plataforma.split()[0]}.docx",
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
