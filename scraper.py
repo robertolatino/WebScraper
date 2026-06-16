@@ -41,7 +41,7 @@ def agregar_html_a_docx(html_text, doc, codigo):
                 padre = padre.parent
     doc.add_paragraph() 
 
-# --- ESTA ES LA FUNCIÓN QUE CONECTA CON APP.PY ---
+# --- FUNCIÓN QUE CONECTA CON APP.PY ---
 def ejecutar_extraccion_enunciados(url_base, usuario, contrasena, lista_codigos, progreso_st=None):
     LISTA_CONTENIDOS = lista_codigos
     
@@ -99,7 +99,6 @@ def ejecutar_extraccion_enunciados(url_base, usuario, contrasena, lista_codigos,
             numero_item = indice_actual + 1
             
             # --- COMUNICACIÓN CON LA WEB ---
-            # Esto es clave para que la página web muestre por qué código va en tiempo real
             if progreso_st: 
                 progreso_st.update(label=f"Procesando [{numero_item}/{len(LISTA_CONTENIDOS)}]: {codigo}...", state="running")
             

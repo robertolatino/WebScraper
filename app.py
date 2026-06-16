@@ -20,7 +20,6 @@ except ImportError:
         return "https://publisher.bymedigital.com/"
 
 # --- PREPARACIÓN DE LAS CONEXIONES FUTURAS ---
-# Dejamos preparadas las importaciones de las funciones que modificaremos en el siguiente paso
 try:
     from recolector import ejecutar_recoleccion
     from scraper import ejecutar_extraccion_enunciados, agregar_html_a_docx
@@ -30,7 +29,7 @@ except ImportError:
     def ejecutar_extraccion_enunciados(*args, **kwargs): return []
     def agregar_html_a_docx(*args, **kwargs): pass
 
-# --- CONFIGURACIÓN DE LA INTERFAZ (UI) ---
+# --- CONFIGURACIÓN DE LA UI ---
 st.set_page_config(
     page_title=STREAMLIT_CONFIG.get("page_title", "Testing Automation Suite"),
     page_icon=STREAMLIT_CONFIG.get("page_icon", "🤖"),
@@ -42,7 +41,7 @@ st.write("Recolección y extracción automatizada de contenidos.")
 st.markdown("---")
 
 # =========================================================================
-# 1. SELECCIÓN DE PUBLISHER & 2. CREDENCIALES (Barra Lateral)
+# 1. SELECCIÓN DE PUBLISHER & 2. CREDENCIALES 
 # =========================================================================
 st.sidebar.header("⚙️ Configuración del Entorno")
 
@@ -67,7 +66,7 @@ st.sidebar.info(f"Conectando a:\n`{url_base}`")
 
 
 # =========================================================================
-# PESTAÑAS DE TRABAJO (Área Central)
+# PESTAÑAS DE TRABAJO
 # =========================================================================
 tab_recolector, tab_extractor = st.tabs(["📋 1. Recolector de Códigos", "Docx 2. Extractor de Enunciados"])
 

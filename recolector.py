@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 
 def ejecutar_recoleccion(url_base, usuario, contrasena, codigo_libro, progreso_st):
     with sync_playwright() as p:
-        # headless=True es obligatorio para que funcione en segundo plano en la web
+        # headless=True 
         browser = p.chromium.launch(headless=True)
         context = browser.new_context()
         page = context.new_page()
@@ -26,10 +26,9 @@ def ejecutar_recoleccion(url_base, usuario, contrasena, codigo_libro, progreso_s
                 page.wait_for_load_state("networkidle")
                 page.wait_for_timeout(2000)
             except Exception as e:
-                # Si falla visualmente, no pasa nada, nuestro selector de abajo nos protege
                 pass
 
-        # --- NAVEGACIÓN Y LOGIN DINÁMICO ---
+        # --- NAVEGACIÓN Y LOGIN ---
         progreso_st.update(label="Accediendo a la plataforma...", state="running")
         page.goto(url_base + "/auth/login")
         
@@ -46,7 +45,7 @@ def ejecutar_recoleccion(url_base, usuario, contrasena, codigo_libro, progreso_s
         page.wait_for_load_state("networkidle")
         page.wait_for_timeout(1500)
         
-        # 1. PRIMERO BUSCAMOS EL LIBRO (Para evitar que la búsqueda borre el filtro)
+        # 1. BUSCAMOS EL LIBRO
         progreso_st.update(label=f"Buscando el libro: {codigo_libro}...", state="running")
         buscador = page.locator('input[data-testid="search"]')
         buscador.fill("") 
@@ -56,7 +55,7 @@ def ejecutar_recoleccion(url_base, usuario, contrasena, codigo_libro, progreso_s
         page.wait_for_load_state("networkidle")
         page.wait_for_timeout(3000)
 
-        # 2. LUEGO APLICAMOS EL FILTRO DE TIPO QUESTION
+        # 2. FILTRO
         aplicar_filtro_global()
 
         codigos_recolectados = set() 
@@ -66,9 +65,6 @@ def ejecutar_recoleccion(url_base, usuario, contrasena, codigo_libro, progreso_s
         while True:
             progreso_st.update(label=f"Analizando y recolectando códigos de la página {pagina_actual}...", state="running")
             
-            # --- DOBLE SEGURIDAD AQUÍ ---
-            # En lugar de recoger todos los enlaces, le decimos a Playwright que SOLO extraiga 
-            # los códigos que están dentro de una fila (tr) que contenga la celda "Question"
             elementos = page.locator('tr:has(td:has-text("Question")) .table-body-cell-edit a').all()
             
             if not elementos:
