@@ -5,7 +5,11 @@ def ejecutar_recoleccion(url_base, usuario, contrasena, codigo_libro, progreso_s
     with sync_playwright() as p:
         # headless=True 
         browser = p.chromium.launch(headless=True)
-        context = browser.new_context()
+        context = browser.new_context(
+            locale='es-ES',
+            timezone_id='Europe/Madrid',
+            extra_http_headers={'Accept-Language': 'es-ES,es;q=0.9'}
+        )
         page = context.new_page()
 
         def aplicar_filtro_global():
