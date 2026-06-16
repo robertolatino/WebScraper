@@ -53,7 +53,11 @@ def ejecutar_extraccion_enunciados(url_base, usuario, contrasena, lista_codigos,
     with sync_playwright() as p:
         # headless=True para que corra oculto en la aplicación web
         browser = p.firefox.launch(headless=True)  
-        context = browser.new_context()
+        context = browser.new_context(
+            locale='es-ES',
+            timezone_id='Europe/Madrid',
+            extra_http_headers={'Accept-Language': 'es-ES,es;q=0.9'}
+        )
         page = context.new_page()
         
         def aplicar_filtro_global():
