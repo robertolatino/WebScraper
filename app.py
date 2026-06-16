@@ -1,5 +1,7 @@
 import streamlit as st
 import io
+import os
+os.system("playwright install chromium firefox")
 from docx import Document
 
 # --- PREPARACIÓN DE LAS CONEXIONES FUTURAS ---
