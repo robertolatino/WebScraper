@@ -1,7 +1,7 @@
 import streamlit as st
 import io
 import os
-os.system("playwright install chromium firefox")
+os.system("playwright install chromium")
 from docx import Document
 
 # Importar configuración centralizada
